@@ -1,0 +1,39 @@
+# The test site
+
+Welcome to the test server. This paragraph is a long line of text that the client must wrap to the width of its screen, because gemtext leaves wrapping to the client and an 80-column screen holds less than most lines of prose.
+
+## Links
+
+=> /input Ask me something
+=> /secret A password prompt
+=> /redirect A redirect to the front page
+=> /loop A redirect loop
+=> /gone Something that is not there
+=> /slow A server asking for a pause
+=> /big A very big document
+=> /binary Not text
+=> /latin Latin-1 text
+=> nested/page.gmi A page in a directory (relative link)
+=> gemini://geminiprotocol.net/ The project's own capsule (absolute link)
+=> gopher://gopher.floodgap.com/ A gopher link (another scheme)
+=>/nospace A link with no space after the arrow
+=>	/tab	A link with tabs
+
+### Lists and quotes
+
+* One
+* Two, which is a longer item that will need to wrap on the screen as well, with the continuation indented under the text and not under the bullet
+* Three
+
+> A quote, attributed to nobody in particular, which is also long enough to need wrapping when it is shown on a screen of eighty columns.
+
+```an alt text
+preformatted   text
+   keeps its   spacing
+=> /not-a-link inside a block
+```
+
+#Heading without a space
+#### Four hashes is a paragraph
+
+Done.

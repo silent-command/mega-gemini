@@ -1,0 +1,5 @@
+# A nested page
+
+=> ../ Back up (relative, with dot segments)
+=> other.gmi A sibling
+=> /index.gmi The front page (absolute path)
