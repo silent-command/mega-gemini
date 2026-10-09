@@ -21,7 +21,7 @@
 #include "ui.h"
 #include "lowram.h"
 
-#define GEMINI_VERSION "0.1.0"
+#define GEMINI_VERSION "0.1.1"
 #define HOME_URL "gemini://geminiprotocol.net/"
 #define HISTORY_BASE 0x8300000UL     /* attic: the URLs behind, URL_MAX + 1 each */
 #define HISTORY_MAX 16                           /* a power of two: the ring */
