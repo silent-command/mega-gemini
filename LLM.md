@@ -4,7 +4,7 @@ A Gemini client for the MEGA65 on mega-net: TLS 1.3
 (`TLS_CHACHA20_POLY1305_SHA256`, X25519, trust on first use by the
 server's key), gemtext rendered on the 80-column screen, the gopher
 client's browser underneath. C99 for llvm-mos, `-Oz`, the arithmetic
-in a bank image as the SSH client does it. 0BSD.
+in a bank image as the SSH client does it. Apache License 2.0.
 
 **Status: section 4's plan done.** The
 client fetches geminiprotocol.net on the MEGA65, the server's P-256

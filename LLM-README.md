@@ -65,7 +65,7 @@ that never answers); `build.py certs` makes its certificates.
 
 ## License
 
-0BSD, see `LICENSE`. mega-net is a separate project under the same
+Apache License 2.0, see `LICENSE`. mega-net is a separate project under the same
 license; mega65-libc is under its own. The `m65_*` platform modules are
 shared with the gopher, FTP, SSH and NTP clients; the cryptographic
 primitives and the bank's trampoline are the SSH client's.

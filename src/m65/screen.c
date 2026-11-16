@@ -41,8 +41,8 @@ void m65_screen_init(void)
   m65_font_install();                              /* the lowercase font with \ ^ ` { } ~ drawn in (ssh 5.25) */
   POKE(0xd058, 80); POKE(0xd059, 0); POKE(0xd05e, 80);   /* the row width, by hand */
   if (!colours_known) {
-    start_border = PEEK(0xd020) & 0x0f;
-    start_bg = PEEK(0xd021) & 0x0f;
+    start_border = 0;                              /* black, as the Net-Tools menu is: no longer inherited from BASIC */
+    start_bg = 0;
     start_text = 1;                                /* white, what the machine itself shows */
     if (start_text == start_bg) start_text = (unsigned char)((start_text + 1) & 0x0f);
     colours_known = 1;
