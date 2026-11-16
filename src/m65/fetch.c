@@ -158,6 +158,7 @@ uint8_t fetch(const char *url, uint8_t trust_change, fetch_result *r, const char
   if (!net_resolve(r->host, ip, &why)) { *err = why; return 0; }
   ui_status("connecting...", 0);
   if (!net_connect(ip, r->port, &why)) { *err = why; return 0; }
+  rnd_stir((uint8_t)PEEK(0xd012));               /* the lookup's and the connect's round trips, before tls_start draws the key share */
 
   doc_clear();
   ui_status("the handshake: keys, then the server's signature...", 0);

@@ -50,6 +50,8 @@
 #define TLS_E_SIGNATURE 9      /* the CertificateVerify signature is wrong */
 #define TLS_E_BUFFER 10        /* the out buffer is too small for what must be sent */
 #define TLS_E_HRR 11           /* the server asked for another key share */
+#define TLS_E_SHARE 12         /* the server's key share is unusable: a P-256 point off the curve,
+                                  or an X25519 one of small order (an all-zero secret) */
 
 /* how the server's signature was handled */
 #define TLS_SIG_UNCHECKED TK_UNCHECKED   /* a scheme this client cannot verify: the key is pinned but not proven */

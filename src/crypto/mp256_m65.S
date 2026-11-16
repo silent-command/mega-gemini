@@ -15,6 +15,7 @@
 ; form, ssh 5.11), so the loop's indices live in memory and the limb's
 ; address is patched into the three instructions that touch it; no
 ; zero page, Z zero on return, every branch short, jmp for the loops.
+; mp_redp256_m65, at the end, does all eight rounds for P-256's p.
 
         .macro LDQA sym
         .byte 0x42, 0x42
@@ -27,6 +28,10 @@
         .macro ADCQ sym
         .byte 0x42, 0x42
         adc \sym
+        .endm
+        .macro SBCQ sym
+        .byte 0x42, 0x42
+        sbc \sym
         .endm
 
         .section .bss,"aw",@nobits
@@ -41,6 +46,7 @@ cy4:        .skip 4                 ; the row's carry
 zero4:      .skip 4
 jj:         .skip 1
 kk:         .skip 1
+rp_neg:     .skip 1                 ; mp_redp256_m65: 0 adds mu at t[kk], 1 subtracts it
 
         .text
 ; One round i (mp_asm_i) of the reduction: t[i..i+8] += mu * m, the carry
@@ -152,4 +158,140 @@ into_top:
         inc mp_asm_top
 done:
         ldz #0
+        rts
+
+; ---- mp_redp256_m65: the eight rounds at once, for P-256's p alone ----
+;
+; p = 2^256 - 2^224 + 2^192 + 2^96 - 1, and its n0 is 1, so mu = t[i]
+; and the row mu * p is no products at all: adding it at limb i cancels
+; t[i] and adds mu at t[i+3], t[i+6] and t[i+8] and takes it from
+; t[i+7] (the additions first, so the number never goes below zero). The
+; same integer as mp_round256_m65's rows, so the same result, bit for
+; bit; mp.c does the final subtraction as before. Each limb operation
+; runs on the Q register at a patched address, its carry or borrow
+; carried on through t[15] into mp_asm_top.
+        .global mp_redp256_m65
+mp_redp256_m65:
+        lda #0
+        sta mp_asm_top
+        sta mp_asm_i
+        sta zero4
+        sta zero4+1
+        sta zero4+2
+        sta zero4+3
+rp_round:
+        lda mp_asm_i            ; mu = t[i]
+        asl
+        asl
+        tax
+        lda fe_mul_out,x
+        sta mp_asm_mu
+        lda fe_mul_out+1,x
+        sta mp_asm_mu+1
+        lda fe_mul_out+2,x
+        sta mp_asm_mu+2
+        lda fe_mul_out+3,x
+        sta mp_asm_mu+3
+        lda #0
+        sta rp_neg
+        lda mp_asm_i
+        clc
+        adc #3
+        jsr rp_op               ; t[i+3] += mu
+        lda mp_asm_i
+        clc
+        adc #6
+        jsr rp_op               ; t[i+6] += mu
+        lda mp_asm_i
+        clc
+        adc #8
+        jsr rp_op               ; t[i+8] += mu
+        inc rp_neg
+        lda mp_asm_i
+        clc
+        adc #7
+        jsr rp_op               ; t[i+7] -= mu
+        inc mp_asm_i
+        lda mp_asm_i
+        cmp #8
+        bcs rp_done
+        jmp rp_round
+rp_done:
+        ldz #0
+        rts
+
+; t[A] += mu (rp_neg 0) or -= mu (rp_neg 1), carried on to the top
+rp_op:
+        sta kk
+        jsr rp_at
+        lda rp_neg
+        bne rp_minus
+        clc
+rp_l1:  LDQA fe_mul_out
+        ADCQ mp_asm_mu
+rp_s1:  STQA fe_mul_out
+        bcc rp_ret
+rp_up:
+        inc kk                  ; a carry: 1 into the next limb
+        lda kk
+        cmp #16
+        bcs rp_top
+        jsr rp_at
+        sec
+rp_l2:  LDQA fe_mul_out
+        ADCQ zero4
+rp_s2:  STQA fe_mul_out
+        bcs rp_up
+rp_ret:
+        rts
+rp_top:
+        inc mp_asm_top
+        rts
+rp_minus:
+        sec
+rp_l3:  LDQA fe_mul_out
+        SBCQ mp_asm_mu
+rp_s3:  STQA fe_mul_out
+        bcs rp_ret
+rp_down:
+        inc kk                  ; a borrow: 1 from the next limb
+        lda kk
+        cmp #16
+        bcs rp_bottom
+        jsr rp_at
+        clc
+rp_l4:  LDQA fe_mul_out
+        SBCQ zero4
+rp_s4:  STQA fe_mul_out
+        bcc rp_down
+        rts
+rp_bottom:
+        dec mp_asm_top
+        rts
+
+; the address of t[kk] into the eight Q instructions that touch it
+rp_at:
+        lda kk
+        asl
+        asl
+        clc
+        adc #mos16lo(fe_mul_out)
+        sta rp_l1+3
+        sta rp_s1+3
+        sta rp_l2+3
+        sta rp_s2+3
+        sta rp_l3+3
+        sta rp_s3+3
+        sta rp_l4+3
+        sta rp_s4+3
+        lda #mos16hi(fe_mul_out)
+        adc #0
+        sta rp_l1+4
+        sta rp_s1+4
+        sta rp_l2+4
+        sta rp_s2+4
+        sta rp_l3+4
+        sta rp_s3+4
+        sta rp_l4+4
+        sta rp_s4+4
         rts

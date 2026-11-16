@@ -299,7 +299,7 @@ static void server_hello(tls *t)
   if (share_group == 0x0017) {
     if (share_len != 65 || m[share_at] != 4) { fail(t, TLS_E_SUITE); return; }
     hash_now(t, t->hash_ch_sh);
-    if (!tk_keys_handshake_p256(m + share_at, t->hash_ch_sh)) { fail(t, TLS_E_SUITE); return; }
+    if (!tk_keys_handshake_p256(m + share_at, t->hash_ch_sh)) { fail(t, TLS_E_SHARE); return; }
     t->rd_on = t->wr_on = 1;
     t->state = TLS_WAIT_HS;
     return;
@@ -308,7 +308,7 @@ static void server_hello(tls *t)
   { uint8_t server_pub[32];
     for (i = 0; i < 32; i++) server_pub[i] = m[share_at + i];
     hash_now(t, t->hash_ch_sh);
-    tk_keys_handshake(server_pub, t->hash_ch_sh); }
+    if (!tk_keys_handshake(server_pub, t->hash_ch_sh)) { fail(t, TLS_E_SHARE); return; } }
   t->rd_on = t->wr_on = 1;
   t->state = TLS_WAIT_HS;
 }
@@ -352,7 +352,7 @@ static void server_hello(tls *t)
   if (!got_share) { fail(t, TLS_E_SUITE); return; }
 
   hash_now(t, t->hash_ch_sh);
-  tk_keys_handshake(server_pub, t->hash_ch_sh);
+  if (!tk_keys_handshake(server_pub, t->hash_ch_sh)) { fail(t, TLS_E_SHARE); return; }
   t->rd_on = t->wr_on = 1;
   t->state = TLS_WAIT_HS;
 }
@@ -640,6 +640,7 @@ const char *tls_error_text(const tls *t)
   case TLS_E_SIGNATURE: return "the server's signature is wrong";
   case TLS_E_BUFFER: return "the send buffer is too small";
   case TLS_E_HRR: return "the server wants another key exchange";
+  case TLS_E_SHARE: return "the server's key share is unusable";
   }
   return "?";
 }

@@ -760,3 +760,32 @@ that their sectors stayed put while the bank was being debugged (5.6),
 which nothing depends on now. The client is written first, as on the
 other clients' disks, and `RUN "*"` — what the key does — reaches the
 address prompt.
+
+### 5.18 Poly1305 in 32-bit limbs, P-256 by its form, and the small-order share (2026-11-16)
+
+- **Poly1305** is OpenSSL's radix 2^32: 20 products of 32 x 32 bits a
+  block on the math unit (`poly_block_m65`, `mulacc_m65.S`) where
+  TweetNaCl's 17 limbs took 289, and each context carries its own
+  multipliers, so 5.5's table rebuild is gone. Xemu: 87 ms/KB to 8.7.
+  Checked against the old C: 200,000 cases on the host, 900 on Xemu.
+  The bank has 1,055 bytes free, from 577.
+- **P-256.** For p, n0 is 1 and the row mu * p is no products: limbs
+  i+3, i+6, i+8 get mu and i+7 loses it (`mp_redp256_m65`), bit for
+  bit the generic rounds' result (3,009 products compared on Xemu).
+  G and Q add with Z = 1 (11 products for 16). Xemu: 7.08 s to 5.00.
+- **X25519**: ref10's inversion chain, 11 multiplies for 252, as a
+  table. A shared secret of all zeros (a small-order share) is refused
+  in the bank (`TLS_E_SHARE`, RFC 8446 7.4.2), and P-256's off-curve
+  share says so instead of "suite"; three host checks.
+- **Randomness**: each sample also reads `$D7EF` (HWRNGRAND, the
+  MEGA65 book K-17, its not-ready bit bounded) and `$D6DE`; a stir
+  after the connect, before the key share.
+
+On the machine, the test server's P-256 certificate, from the
+Net-Tools menu: the front page, key pinned, "verified in 8 s":
+`tk_frames_keys` 138 and `tk_frames_verify` 303, where 5.12 had about
+400 for the signature. The previous Net-Tools disk, same server:
+"verified in 11 s". `/big` (195 KB), timed through `mon.py` reads of
+the status row (no screenshot stalls): 31.7 s, receiving 20.8 s; the
+previous disk 50.2 s and 36.9 s. The small-order refusal has not been
+seen on the machine.

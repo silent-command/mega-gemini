@@ -11,7 +11,9 @@ RSA-2048 and RSA-4096, the last in about 5.5 seconds on a
 Montgomery multiplier that runs on the CPU's 32-bit math registers
 (REQUIREMENTS.md 5.12). It follows links and goes back (from a cache
 of the last four pages, at once); a page from geminiprotocol.net takes
-about 12 seconds (5.6, 5.8, 5.10). The pinned keys and the bookmarks are kept on the boot disk
+about 12 seconds (5.6, 5.8, 5.10). Since 5.18 a P-256 signature takes
+about 6 seconds (it was 8), and a 195 KB page from the test server 32
+(it was 50). The pinned keys and the bookmarks are kept on the boot disk
 (GEMHOSTS, GEMMARKS), and a page can be saved. Not yet: saving a
 non-text file, client certificates.
 

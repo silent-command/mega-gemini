@@ -20,6 +20,7 @@ typedef struct {
   mp_limb rr[MP_MAX_LIMBS];        /* R^2 mod m, R = 2^(16n) */
   mp_limb n0;                      /* -m^-1 mod 2^16 */
   uint32_t n0_32;                  /* -m^-1 mod 2^32, for the 32-bit paths on the machine */
+  uint8_t p256;                    /* m is P-256's p: the machine reduces by its form, no products */
   mp_limb t[MP_MAX_LIMBS + 6];     /* the multiplier's scratch: n + 2 limbs, and a 32-bit limb below them for the reduction row (5.12) */
 } mp_ctx;
 

@@ -5,6 +5,7 @@
 #include "crypto.h"
 #include "hkdf.h"
 #include "tls/keys.h"
+#include "tls/tlskit.h"
 #include "../tests/vectors.h"
 
 static int checks, failed;
@@ -74,6 +75,17 @@ int main(void)
   /* the client's Finished: over the same transcript, with its own handshake secret */
   tls_finished(s.c_hs, hash, out);
   CHECK(!memcmp(out, V(client_calculate_finished_tls13_finished_finished), 32), "client Finished verify_data");
+
+  /* the kit refuses a share of small order, whose secret is all zeros
+   * (RFC 8446 7.4.2; 0 and 1 are two of RFC 7748's), and takes a real one */
+  { uint8_t pub[32], small_order[32];
+    tk_keyshare(pub);
+    memset(small_order, 0, 32);
+    CHECK(tk_keys_handshake(small_order, hash) == 0, "a zero key share is refused");
+    small_order[0] = 1;
+    CHECK(tk_keys_handshake(small_order, hash) == 0, "the point u = 1 is refused");
+    CHECK(tk_keys_handshake(V(server_create_an_ephemeral_x25519_key_pair_public_key), hash) == 1, "a real key share is taken");
+  }
 
   printf("%d checks, %d failed\n", checks, failed);
   return failed != 0;

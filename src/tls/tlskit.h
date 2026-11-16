@@ -20,8 +20,10 @@ void tk_transcript_hash(uint8_t out[32]);
 /* a fresh X25519 pair; the private key stays inside */
 void tk_keyshare(uint8_t pub[32]);
 /* the handshake secrets from the peer's share and hash(CH, SH); the
- * handshake traffic keys installed for reading and writing, sequence 0 */
-void tk_keys_handshake(const uint8_t peer_pub[32], const uint8_t hash[32]);
+ * handshake traffic keys installed for reading and writing, sequence 0.
+ * Returns 0, and installs nothing, if the shared secret is all zeros:
+ * the peer sent a point of small order (RFC 8446 7.4.2, RFC 7748 6.1). */
+uint8_t tk_keys_handshake(const uint8_t peer_pub[32], const uint8_t hash[32]);
 #ifdef TLS_P256
 /* the same two steps on P-256, for a server that will not take x25519
  * and says so with a HelloRetryRequest (OFTC, mega-irc 5.12): a fresh

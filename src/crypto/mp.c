@@ -60,6 +60,7 @@ extern uint32_t mp_asm_mu;
 extern uint8_t mp_asm_i, mp_asm_top;
 void fe_mul_m65(void);
 void mp_round256_m65(void);
+void mp_redp256_m65(void);
 static uint16_t mults256;
 static void mont_mul256(mp_ctx *c, mp_limb *r, const mp_limb *a, const mp_limb *b)
 {
@@ -67,11 +68,14 @@ static void mont_mul256(mp_ctx *c, mp_limb *r, const mp_limb *a, const mp_limb *
   const mp_limb *t;
   while (p < end) { *p++ = *a++; *q++ = *b++; }
   fe_mul_m65();
-  mp_asm_top = 0;
-  for (mp_asm_i = 0; mp_asm_i < 8; mp_asm_i++) {  /* eight rounds: mu = t[i] * n0 mod 2^32, then the row on the math unit */
-    const uint16_t *ti = fe_mul_out + 2 * mp_asm_i;
-    mp_asm_mu = ((uint32_t)ti[0] | ((uint32_t)ti[1] << 16)) * c->n0_32;
-    mp_round256_m65();
+  if (c->p256) mp_redp256_m65();                   /* p's form: additions, no products (mp256_m65.S) */
+  else {
+    mp_asm_top = 0;
+    for (mp_asm_i = 0; mp_asm_i < 8; mp_asm_i++) {  /* eight rounds: mu = t[i] * n0 mod 2^32, then the row on the math unit */
+      const uint16_t *ti = fe_mul_out + 2 * mp_asm_i;
+      mp_asm_mu = ((uint32_t)ti[0] | ((uint32_t)ti[1] << 16)) * c->n0_32;
+      mp_round256_m65();
+    }
   }
   t = fe_mul_out + 16;
   if (mp_asm_top || cmp_n(16, t, c->m) >= 0) sub_n(16, r, t, c->m);
@@ -310,6 +314,10 @@ void mp_init(mp_ctx *c, const uint8_t *m, uint16_t mlen)
   inv = 1;
   for (i = 0; i < 6; i++) inv = inv * (2 - m0 * inv);
   c->n0_32 = 0 - inv;
+  {
+    static const mp_limb p256p[16] = { 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0, 0, 0, 0, 0, 0, 1, 0, 0xffff, 0xffff };
+    c->p256 = (uint8_t)(c->n == 16 && cmp_n(16, c->m, p256p) == 0);
+  }
 #ifdef __mos__
   if (c->n == 16) {                                /* the machine's 256-bit path reads these */
     mp_limb *dm = mp_asm_m, *e = mp_asm_m + 16; const mp_limb *sm = c->m;

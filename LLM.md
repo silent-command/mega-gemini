@@ -50,13 +50,13 @@ python3 tools/sig_vectors.py > tests/sigvectors.h                               
 use `127.0.0.1`.
 
 On the machine, with the driver (the Mac's test server is at
-192.168.1.232):
+192.168.1.251):
 
 ```
 source ../mega-net/tools/m65lib.sh
 put_d81 bin/GEMINI.D81 GEMINI.D81
 boot_prg gemini.d81 gemini 'ddress:'               the address prompt ("waiting for an address" also has "ddress": keep the colon)
-type_line '192.168.1.232'                          then poll row 23 for a '%': the page, or a message
+type_line '192.168.1.251'                          then poll row 23 for a '%': the page, or a message
 python3 ../mega-net/tools/mon.py 'm 5e900'         the server's certificate, as the bank stored it
 ```
 
@@ -100,9 +100,9 @@ renderer and the bank's zero-page swap at `$1E000-$1F7FF` (the RENDER
 image, 5.8). Bank 5 `$5E900`: the server's certificate. Attic: the
 body at `$8000000`, the rows at `$8100000`, the link targets at
 `$8200000`, the history at `$8300000`, the page cache's four 1 MB
-slots from `$8400000` (5.9). The client `$2001` to `$C98C`, 1,652
+slots from `$8400000` (5.9). The client `$2001` to `$CBA4`, 1,116
 bytes for the soft stack (the build refuses less than 1 KB); the bank
-with 331 bytes free below its stack and 259 in its top window (5.8):
+with 1,055 bytes free below its stack (5.18; 331 before it, 5.8):
 the next feature in either finds its bytes first. `marks.c` and
 `cache.c` stage their text in the scratch line: nothing reads a
 bookmark into the scratch line (5.8).

@@ -66,22 +66,31 @@ static void dbl(point *r, const point *p)
   fsub(t, s, r->x); fmul(t, m, t); fsub(r->y, t, u);   /* Y' = M(S - X') - 8Y^4 */
 }
 
-/* r = p + q, general Jacobian addition. */
-static void add(point *r, const point *p, const point *q)
+/* r = p + q, Jacobian addition. With q_affine, q's Z is 1 (in Montgomery
+ * form) and the four products that scale by it are skipped, with the
+ * fifth in Z3: 11 products where the general case takes 16. G and Q are
+ * affine, so two additions in three of a verification are this kind. */
+static void add(point *r, const point *p, const point *q, uint8_t q_affine)
 {
   mp_limb *z1z1 = TMP, *z2z2 = TMP + L, *u1 = TMP + 2 * L, *u2 = TMP + 3 * L, *s1 = TMP + 4 * L, *s2 = TMP + 5 * L, *h = TMP + 6 * L, *rr = TMP + 7 * L, *t = TMP + 8 * L;
   if (is_inf(p)) { *r = *q; return; }
   if (is_inf(q)) { *r = *p; return; }
-  fsqr(z1z1, p->z); fsqr(z2z2, q->z);
-  fmul(u1, p->x, z2z2); fmul(u2, q->x, z1z1);
-  fmul(t, z2z2, q->z); fmul(s1, p->y, t);
+  fsqr(z1z1, p->z);
+  if (q_affine) { mp_copy(&fp, u1, p->x); mp_copy(&fp, s1, p->y); }
+  else {
+    fsqr(z2z2, q->z);
+    fmul(u1, p->x, z2z2);
+    fmul(t, z2z2, q->z); fmul(s1, p->y, t);
+  }
+  fmul(u2, q->x, z1z1);
   fmul(t, z1z1, p->z); fmul(s2, q->y, t);
   fsub(h, u2, u1); fsub(rr, s2, s1);
   if (mp_is_zero(&fp, h)) {
     if (mp_is_zero(&fp, rr)) { dbl(r, p); return; }
     mp_set_small(&fp, r->z, 0); return;            /* p = -q */
   }
-  fmul(t, p->z, q->z); fmul(r->z, t, h);           /* Z3 = Z1 Z2 H */
+  if (q_affine) fmul(r->z, p->z, h);               /* Z3 = Z1 H */
+  else { fmul(t, p->z, q->z); fmul(r->z, t, h); }  /* Z3 = Z1 Z2 H */
   fsqr(t, h);                                      /* H^2 */
   fmul(u1, u1, t);                                 /* U1 H^2 */
   fmul(t, t, h);                                   /* H^3 */
@@ -131,16 +140,16 @@ uint8_t p256_verify(const uint8_t pub[64], const uint8_t hash[32], const uint8_t
   mp_from_be(&fp, t, GX, 32); mp_to_mont(&fp, g->x, t);
   mp_from_be(&fp, t, GY, 32); mp_to_mont(&fp, g->y, t);
   mp_copy(&fp, g->z, q->z);
-  add(gq, g, q);
+  add(gq, g, q, 1);
 
   /* acc = u1 G + u2 Q */
   mp_set_small(&fp, acc->z, 0);
   for (i = 255; i >= 0; i--) {
     dbl(acc, acc);
     i1 = bit_of(u1, (uint16_t)i); i2 = bit_of(u2, (uint16_t)i);
-    if (i1 && i2) add(acc, acc, gq);
-    else if (i1) add(acc, acc, g);
-    else if (i2) add(acc, acc, q);
+    if (i1 && i2) add(acc, acc, gq, 0);
+    else if (i1) add(acc, acc, g, 1);
+    else if (i2) add(acc, acc, q, 1);
     if (crypto_yield && (i & 7) == 0) crypto_yield();
   }
   STEP(6);
@@ -164,7 +173,7 @@ static void mul(point *acc, const point *pt, const mp_limb *k)
   mp_set_small(&fp, acc->z, 0);
   for (i = 255; i >= 0; i--) {
     dbl(acc, acc);
-    if (bit_of(k, (uint16_t)i)) add(acc, acc, pt);
+    if (bit_of(k, (uint16_t)i)) add(acc, acc, pt, 1);        /* pt is affine: keygen's G, ECDH's peer */
     if (crypto_yield && (i & 7) == 0) crypto_yield();
   }
 }
@@ -240,7 +249,7 @@ void p256_test_points(uint8_t *out)
   mp_from_be(&fp, t, GY, 32); mp_to_mont(&fp, g->y, t);
   mp_from_mont(&fp, g->z, fp.rr);
   dbl(g2, g);
-  add(g3, g2, g);
+  add(g3, g2, g, 1);
   for (which = 0; which < 2; which++) {
     point *pt = which ? g3 : g2;
     mp_mont_inv(&fp, zi, pt->z);

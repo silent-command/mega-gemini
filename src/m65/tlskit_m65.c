@@ -77,11 +77,13 @@ void tk_transcript_hash(uint8_t out[32]) { put28(blk, out); call_blk(E_TRANSCRIP
 
 void tk_keyshare(uint8_t pub[32]) { put28(blk, pub); call_blk(E_KEYSHARE); }
 
-void tk_keys_handshake(const uint8_t peer_pub[32], const uint8_t hash[32])
+uint8_t tk_keys_handshake(const uint8_t peer_pub[32], const uint8_t hash[32])
 {
+  uint8_t r;
   put28(blk, peer_pub); put28(blk + 4, hash);
-  call_blk(E_KEYS_HANDSHAKE);
+  r = call_blk(E_KEYS_HANDSHAKE);
   tk_frames_keys = FRAMES();
+  return r;
 }
 
 void tk_keys_master(const uint8_t hash[32]) { put28(blk, hash); call_blk(E_KEYS_MASTER); }

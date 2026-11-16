@@ -36,14 +36,17 @@ void tk_keyshare(uint8_t pub[32])
   x25519_base(pub, priv);
 }
 
-void tk_keys_handshake(const uint8_t peer_pub[32], const uint8_t hash[32])
+uint8_t tk_keys_handshake(const uint8_t peer_pub[32], const uint8_t hash[32])
 {
-  uint8_t ecdhe[32];
+  uint8_t ecdhe[32], z = 0, i;
   x25519(ecdhe, priv, peer_pub);
+  for (i = 0; i < 32; i++) z |= ecdhe[i];
+  if (!z) return 0;                                /* a small-order point (RFC 8446 7.4.2) */
   tls_schedule_start(&sched);
   tls_schedule_handshake(&sched, ecdhe, hash);
   tls_traffic_keys(sched.s_hs, &rd); rd_seq = 0;
   tls_traffic_keys(sched.c_hs, &wr); wr_seq = 0;
+  return 1;
 }
 
 #ifdef TLS_P256
