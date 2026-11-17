@@ -789,3 +789,35 @@ Net-Tools menu: the front page, key pinned, "verified in 8 s":
 the status row (no screenshot stalls): 31.7 s, receiving 20.8 s; the
 previous disk 50.2 s and 36.9 s. The small-order refusal has not been
 seen on the machine.
+
+### 5.19 The same sources, the same disk (2026-11-17)
+
+Rebuilt from the commit on the card, the bank and the client came out
+different, and five builds of one commit gave four. Every LTO stage up
+to `precodegen.bc` was byte for byte the same, and the code generator
+was not: `chacha20_block`, `sha256_final`, `stir`, `tls_expand_label`
+and `main` moved by a few bytes, the same values in other zero-page
+bytes (`lda #$8b` against `#$81`), now and then one more zero-page
+register saved. Fixed object names, one link thread, ASLR off and
+`MallocNanoZone=0` together narrowed it and did not end it. llvm-mos's
+`MOSZeroPageAlloc` walked a `DenseMap<GlobalVariable *, float>` and a
+`DenseMap<const Function *, float>` in pointer order. Ties then fell
+by address, and the float sums by the order they were added in.
+Upstream fixed it after this toolchain's release: 742d554bf, "Make
+zero page allocation deterministic" (2026-09-14, `MapVector` and
+`SmallSetVector`).
+
+`~/llvm-mos` now has c798c31 (the release) with that one commit added,
+`clang-23` and `lld` rebuilt (mega-net `docs/PLATFORM.md`, the
+toolchain). Its regression test passes. Gopher, FTP, NTP, SSH, SFTP,
+BBS, mega-net and the menu are byte for byte what the release built.
+Gemini is the same in four builds, from a second checkout and with
+the toolchain at a second path. `tools/repro.py` builds N times and
+compares every file on the disk; under the release it fails (three
+builds, three banks).
+
+The bank has 1,042 bytes free before `$BE00`, from 1,055 (the release's
+builds ranged over about 24 bytes). The client keeps 1,116 bytes of
+stack. On the machine, from the Net-Tools menu, the test server's P-256
+certificate: the front page, "verified in 8 s" (13 s on the first
+handshake after a boot), and `/big` in 33.0 s, against 31.7 s for 5.18.

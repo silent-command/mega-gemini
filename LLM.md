@@ -36,6 +36,7 @@ hook stopped writing over the receive buffer (5.13).
 ```
 python3 build.py test         the host suites: gemtext, Gemini, crypto, signatures, TLS; all must pass before anything else
 python3 build.py              the bank (build/bank/crypto.bin, render.bin), the client and bin/GEMINI.D81; refuses on the ssh 5.6 miscompile shape and on less than 1 KB of stack
+python3 tools/repro.py [N]    N builds (2), every file on the disk compared: the same sources must give the same disk (5.19)
 python3 build.py bank         the bank alone, with its map in build/bank/crypto.map (check .noinit and .bss.hi there after touching crypto.ld: a pattern that matches nothing is silent, 5.8)
 CK_SELFTEST=1 python3 build.py   the bank with its P-256 self-test on RFC 6979 (RSA left out for the room) and the client's keys for it: 't' at the address prompt runs it, 'g' leaves 2G and 3G in mp_scratch; that client leaves the bookmark screen out for the room (5.14); selftest 4 (no key) is the row benchmark of 5.12
 python3 build.py hostclient   build/host/tls_host URL [--delay SECONDS]: a page fetched on the host through src/tls; the delay sits between the handshake and the request, to measure a server's request timer (5.11)
@@ -102,7 +103,7 @@ body at `$8000000`, the rows at `$8100000`, the link targets at
 `$8200000`, the history at `$8300000`, the page cache's four 1 MB
 slots from `$8400000` (5.9). The client `$2001` to `$CBA4`, 1,116
 bytes for the soft stack (the build refuses less than 1 KB); the bank
-with 1,055 bytes free below its stack (5.18; 331 before it, 5.8):
+with 1,042 bytes free below its stack (5.19; 1,055 in 5.18, 331 in 5.8):
 the next feature in either finds its bytes first. `marks.c` and
 `cache.c` stage their text in the scratch line: nothing reads a
 bookmark into the scratch line (5.8).

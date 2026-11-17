@@ -51,13 +51,15 @@ Documents other than text are not saved yet.
 
 ## Building
 
-Needs [llvm-mos](https://llvm-mos.org), CMake, `c1541` from VICE, Python 3,
+Needs [llvm-mos](https://llvm-mos.org) with its commit 742d554bf (2026-09-14;
+without it no two builds are the same, REQUIREMENTS.md 5.19), CMake, `c1541` from VICE, Python 3,
 and two sibling checkouts: `../mega-net` and
 `../mega65-libc` (github.com/MEGA65/mega65-libc).
 
 ```
 python3 build.py test         the host suites (gemtext, Gemini, crypto, signatures, TLS)
 python3 build.py              the TLS bank, the client and bin/GEMINI.D81
+python3 tools/repro.py        two builds, compared file by file
 python3 build.py hostclient   build/host/tls_host URL: a page fetched on the host through the same TLS code
 ```
 
