@@ -251,7 +251,7 @@ int main(void)
    * the stub storms before the program gets anywhere (5.6). So first:
    * the controller into reset, the receive ring rotated and the queues
    * acknowledged as mega-net's driver does, the enables clear. */
-  POKE(0xd6e0, 0x00);
+  m65_net_hold();                                 /* unless the menu launched us: then it stays running (netutil.c) */
   POKE(0xd6e1, 0x01); POKE(0xd6e1, 0x03); POKE(0xd6e1, 0x00);
   m65_own_vectors();                              /* then: a stray ethernet event before this enters the KERNAL's handler (mega-net 5.18) */
   CRUMB(2);
