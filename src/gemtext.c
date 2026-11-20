@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 #include "gemtext.h"
 
 static uint8_t ws(char c) { return (uint8_t)(c == ' ' || c == '\t'); }

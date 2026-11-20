@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* The servers' keys, pinned on first use: host, port, the SHA-256 of
  * the SubjectPublicKeyInfo. The table is in bank 1 at $1D000, 16
  * entries; between runs it is GEMHOSTS on the boot disk, the table's

@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 ; A 256-bit Montgomery multiplication on the 45GS02's math unit, for
 ; P-256 (REQUIREMENTS.md 5.6): the SSH client's fe_mul_m65 (mulacc_m65.S)
 ; makes the 512-bit product of fe_mul_in_a and fe_mul_in_b into

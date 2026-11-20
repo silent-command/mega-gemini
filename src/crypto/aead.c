@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 #include "aead.h"
 
 static const uint8_t zeros[16] = { 0 };

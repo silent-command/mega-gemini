@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* Gemtext (text/gemini), line by line: what kind of line, and where its
  * text and its link target are. Also the word wrap to a column width.
  * C99 and stdint.h only, so tests/test_gemtext.c runs it on the host.

@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 #include "url.h"
 
 static char lower(char c) { return (char)((c >= 'A' && c <= 'Z') ? c + 32 : c); }

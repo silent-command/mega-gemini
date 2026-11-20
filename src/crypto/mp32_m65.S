@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 ; A Montgomery row of any length over 32-bit limbs on the 45GS02's math
 ; unit, in the Q register, for mp.c's mont32 (REQUIREMENTS.md 5.12):
 ; RSA on the machine.

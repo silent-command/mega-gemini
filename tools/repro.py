@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright 2026 Justin Cameron
+# SPDX-License-Identifier: Apache-2.0
 """Build twice and compare: the same sources must give the same disk.
 
   python3 tools/repro.py [N]      N builds (default 2), each file on the

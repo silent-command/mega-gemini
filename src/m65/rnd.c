@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* Entropy for the bank's pool: as the SSH client does, timing jitter is
  * sampled over about a second (the raster, the frame counter, a CIA
  * timer, the ethernet controller's counter), with the machine's random

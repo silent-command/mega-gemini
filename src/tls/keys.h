@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* The TLS 1.3 key schedule (RFC 8446 7.1) for TLS_CHACHA20_POLY1305_SHA256
  * with an (EC)DHE key exchange and no PSK: the three extracts, the
  * derived secrets, the traffic keys, the Finished MACs. C99 over

@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* ChaCha20's block function (RFC 8439 2.3) with the rounds as a loop
  * over a table, for the bank: the SSH client's chacha20.c unrolls them
  * and comes to 4 KB on this CPU, this to under one. The bank builds

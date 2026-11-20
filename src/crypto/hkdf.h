@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* HMAC-SHA256 (RFC 2104) and HKDF (RFC 5869) over the SHA-256 in
  * crypto.h, which TLS 1.3 derives every key with. Same style as the
  * rest: C99, stdint.h, no allocation, host-tested against the RFC

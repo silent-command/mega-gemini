@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* Multi-precision arithmetic modulo an odd number, for ECDSA P-256 and
  * RSA: Montgomery multiplication in 16-bit limbs with 32-bit
  * accumulators, so nothing here needs 64-bit arithmetic (the family's

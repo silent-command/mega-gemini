@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* The three images from the boot disk: MEGANET to bank 4 through the
  * platform's loader, then CRYPTO (the TLS bank) to $12000 and its
  * trampoline to $1700, as the SSH client's ck_boot does; then the

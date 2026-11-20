@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* The document: the response body as it arrives, raw, in attic RAM,
  * with a mark per TLS record so a record that fails its tag (or turns
  * out not to be data) is taken back; then, once the transfer has ended,

@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* The host suite for src/tls/: the key schedule against RFC 8448
  * section 3, message by message. */
 #include <stdio.h>

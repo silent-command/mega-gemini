@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* AEAD_CHACHA20_POLY1305 (RFC 8439 2.8), the TLS 1.3 record protection
  * of TLS_CHACHA20_POLY1305_SHA256, streamed: a record can be longer than
  * any buffer this client has, so the payload goes through in pieces and

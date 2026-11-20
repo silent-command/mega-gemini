@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright 2026 Justin Cameron
+# SPDX-License-Identifier: Apache-2.0
 """A Gemini server on the development machine, for testing the client
 against known documents and known misbehaviour.
 

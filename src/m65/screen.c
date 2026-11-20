@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* The 80x25 screen for this client, written directly: the FTP client's
  * module (src/platform/m65_screen.c) with the console library taken
  * out, as the SSH client did, because its output routines and their

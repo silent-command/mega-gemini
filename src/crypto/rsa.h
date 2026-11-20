@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* RSASSA-PSS verification (RFC 8017 8.1.2) with SHA-256, MGF1-SHA256
  * and a 32-byte salt, as TLS 1.3's rsa_pss_rsae_sha256: one modular
  * exponentiation over mp.h, then the padding check. Moduli up to 4096

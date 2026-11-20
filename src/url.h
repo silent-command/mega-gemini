@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* URLs as Gemini uses them: gemini://host[:port]/path[?query], and the
  * resolution of a link's target against the page it is on (RFC 3986
  * section 5, the parts that matter). C99 and stdint.h only. */

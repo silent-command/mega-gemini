@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* The Gemini response: the status line, then the body. Fed the bytes
  * as they arrive; says when the header is complete and what it means,
  * then passes body bytes on. C99 and stdint.h only. */

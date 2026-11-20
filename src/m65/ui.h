@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* Keys, lines and prompts on the 80-column screen. Every wait in here
  * polls the stack, so a lease stays alive while the user thinks.
  * The FTP client's, by way of the NTP client. */

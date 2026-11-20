@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* What this client needs from a server's X.509 certificate: its public
  * key, and the SubjectPublicKeyInfo to pin. The certificate is read
  * through a hook by byte range, so it can sit anywhere. No chain, no

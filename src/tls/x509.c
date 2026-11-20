@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 #include "x509.h"
 #include "../crypto/crypto.h"
 #include "../crypto/p256.h"

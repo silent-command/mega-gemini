@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* The MEGA65 side of the kit beyond tlskit.h: bringing the bank up and
  * feeding it entropy. The bank image (CRYPTO on the disk) is loaded to
  * $12000 and the trampoline to $1700 by m65_boot; then INIT. */

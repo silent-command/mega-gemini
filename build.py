@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright 2026 Justin Cameron
+# SPDX-License-Identifier: Apache-2.0
 """Build driver for mega-gemini: Python, so that Windows, Linux and macOS
 are all first-class development hosts.
 

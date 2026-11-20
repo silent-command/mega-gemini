@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* What the TLS engine asks of the cryptography, and nothing else: the
  * line between the client (tls.c, framing and parsing) and the bank
  * (the keys, the hashes, the ciphers, the verifiers). On the host

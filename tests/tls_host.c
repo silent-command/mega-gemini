@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* The TLS client over a real socket, on the host: fetches one Gemini URL
  * and prints what came back. The proof that src/tls/ talks to real
  * servers before any of it goes near the MEGA65.

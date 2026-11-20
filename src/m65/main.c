@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* MEGA65 Gemini client: the address, the fetch, the page, the links,
  * back. REQUIREMENTS.md section 2 for the decisions. */
 #include "mega65/memory.h"

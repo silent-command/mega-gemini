@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* A TLS 1.3 client (RFC 8446) for one connection at a time, the shape
  * a Gemini request has: connect, send one line, read until the server
  * closes. One cipher suite, TLS_CHACHA20_POLY1305_SHA256; one group,

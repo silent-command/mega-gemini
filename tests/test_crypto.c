@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* The host suite for src/crypto/: the SSH client's primitives are proved
  * in that tree; this checks what is new here (HMAC, HKDF, the AEAD) and
  * that the copies still agree with the RFCs they will be used against. */

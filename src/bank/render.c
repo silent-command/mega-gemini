@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* The renderer, in the bank's top window ($E000-$F7FF of bank 1, the
  * window the SSH client's terminal parser used): the raw body in attic
  * RAM to rows of DOC_ROW_SIZE and a link table, once per page, by DMA

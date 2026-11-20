@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* The pages behind, for back: four slots in attic RAM, each a page's
  * raw body with its URL and its status text, so that RUN/STOP shows
  * the page again without the handshake (5.9). Only pages that arrived

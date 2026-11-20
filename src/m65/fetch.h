@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* One Gemini request: resolve, connect, TLS, the request line, the
  * response into the document store, the connection closed. The status
  * line is parsed once its record has been kept, so nothing is believed

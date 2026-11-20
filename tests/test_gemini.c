@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* The host suite for src/gemini.c: status lines, byte by byte and in one piece. */
 #include <stdio.h>
 #include <string.h>

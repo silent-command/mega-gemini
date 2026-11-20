@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* Bookmarks: URLs, one per line, in GEMMARKS on the boot disk, eight
  * at most; the text kept in bank 1 above the font ($11800), as the FTP
  * client keeps its bookmarks (its 5.10). M in the pager toggles the

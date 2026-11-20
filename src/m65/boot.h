@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 #ifndef BOOT_H
 #define BOOT_H
 /* Loads CRYPTO from the drive MEGANET came from, and runs its INIT.

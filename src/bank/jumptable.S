@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 ; The TLS bank's jump table and entry prologue: the SSH client's bank
 ; (its src/bank/jumptable.S), with this client's entries; mega-net's shape
 ; (its src/abi/jumptable.S), with the bank's own zero page $70-$FF

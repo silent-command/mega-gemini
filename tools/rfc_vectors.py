@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright 2026 Justin Cameron
+# SPDX-License-Identifier: Apache-2.0
 """Extracts the test vectors the host suite checks the TLS code against,
 from the RFC texts, into tests/vectors.h:
 

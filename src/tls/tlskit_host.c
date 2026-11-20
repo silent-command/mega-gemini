@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* The kit on the host: the C in src/crypto, called directly. The same
  * operations the bank performs on the MEGA65, so a page fetched here
  * exercises what runs there. */

@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* A page to disk: the response's body, raw, as a SEQ (or PRG) file on
  * the boot disk through the CBM DOS module. */
 #ifndef SAVE_H

@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright 2026 Justin Cameron
+# SPDX-License-Identifier: Apache-2.0
 """Generates the vectors the signature verifiers and the multi-precision
 arithmetic are checked against, into tests/sigvectors.h, with Python's
 cryptography package (OpenSSL underneath) and its integers:

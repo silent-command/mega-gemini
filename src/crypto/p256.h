@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* ECDSA verification over NIST P-256 (secp256r1) with a SHA-256 digest,
  * over mp.h: Jacobian coordinates in Montgomery form, Shamir's trick for
  * the two scalar multiplications. Verification only; this client never

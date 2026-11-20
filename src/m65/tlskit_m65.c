@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* The kit on the MEGA65: every call goes through the TLS bank's
  * trampoline at $1700 (the page after mega-net's), a mailbox and a JSR,
  * as the SSH client's ckit.c does. Parameter blocks are byte arrays in

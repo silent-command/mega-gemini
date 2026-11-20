@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* The page on the screen: the rendered rows, scrolled, with a link
  * selected; what the user asked for on leaving. */
 #ifndef PAGER_H

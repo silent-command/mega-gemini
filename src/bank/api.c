@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* The TLS bank's entries: the C behind each jump in jumptable.S, which
  * is the kit (src/tls/tlskit.h) as the bank sees it. Every entry reads
  * a parameter block from the caller's memory by DMA (A/X/Y hold its

@@ -1,3 +1,5 @@
+/* Copyright 2026 Justin Cameron
+ * SPDX-License-Identifier: Apache-2.0 */
 /* Where the document lives, shared by the client (src/m65/doc.c, which
  * fills the raw body and reads the rows) and the bank (src/bank/render.c,
  * which turns the one into the other). Every address is 28-bit; both
